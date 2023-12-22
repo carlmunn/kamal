@@ -2,7 +2,12 @@ require "net/http"
 require "test_helper"
 
 class IntegrationTest < ActiveSupport::TestCase
+  # Allow running tests without the errors because docker process is not running
+  TEST_NO_INTEGRATION = !!ENV['TEST_NO_INTEGRATION']
+
   setup do
+    skip 'Integration requires docker' if TEST_NO_INTEGRATION
+
     ENV["TEST_ID"] = SecureRandom.hex
     docker_compose "up --build -d"
     wait_for_healthy
@@ -17,8 +22,9 @@ class IntegrationTest < ActiveSupport::TestCase
         docker_compose :logs, container
       end
     end
+
     docker_compose "down -t 1"
-  end
+  end unless TEST_NO_INTEGRATION
 
   private
     def docker_compose(*commands, capture: false, raise_on_error: true)

@@ -2,6 +2,8 @@ require_relative "integration_test"
 
 class AccessoryTest < IntegrationTest
   test "boot, stop, start, restart, logs, remove" do
+    #skip 'Integration requires docker' if ENV['TEST_NO_INTEGRATION']
+
     kamal :envify
 
     kamal :accessory, :boot, :busybox
