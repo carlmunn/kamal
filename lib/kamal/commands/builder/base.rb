@@ -3,7 +3,7 @@ class Kamal::Commands::Builder::Base < Kamal::Commands::Base
   class BuilderError < StandardError; end
 
   delegate :argumentize, to: Kamal::Utils
-  delegate :args, :secrets, :dockerfile, :local_arch, :local_host, :remote_arch, :remote_host, :cache_from, :cache_to, to: :builder_config
+  delegate :args, :secrets, :dockerfile, :local_arch, :local_host, :remote_arch, :remote_host, :cache_from, :cache_to, :build_extra_commands, to: :builder_config
 
   def clean
     docker :image, :rm, "--force", config.absolute_image
@@ -14,7 +14,7 @@ class Kamal::Commands::Builder::Base < Kamal::Commands::Base
   end
 
   def build_options
-    [ *build_tags, *build_cache, *build_labels, *build_args, *build_secrets, *build_dockerfile ]
+    [ *build_tags, *build_cache, *build_labels, *build_args, *build_secrets, *build_dockerfile, *build_extra_commands ]
   end
 
   def build_context
