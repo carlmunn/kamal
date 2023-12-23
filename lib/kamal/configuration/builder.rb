@@ -70,6 +70,10 @@ class Kamal::Configuration::Builder
     end
   end
 
+  def build_extra_commands
+    @options["options"]
+  end
+
   def cache_to
     if cached?
       case @options["cache"]["type"]

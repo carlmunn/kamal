@@ -42,7 +42,6 @@ class Kamal::Commands::Builder < Kamal::Commands::Base
     @multiarch_remote ||= Kamal::Commands::Builder::Multiarch::Remote.new(config)
   end
 
-
   def ensure_local_dependencies_installed
     if name.native?
       ensure_local_docker_installed

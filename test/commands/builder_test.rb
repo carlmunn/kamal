@@ -107,6 +107,22 @@ class CommandsBuilderTest < ActiveSupport::TestCase
     assert_equal "docker inspect -f '{{ .Config.Labels.service }}' dhh/app:123 | grep -x app || (echo \"Image dhh/app:123 is missing the `service` label\" && exit 1)", new_builder_command.validate_image.join(" ")
   end
 
+  test 'extra option given to builder' do
+    builder = new_builder_command(builder: { "options" => "--ssh $SSH_AUTH_SOCK" })
+
+    assert_equal \
+      "-t dhh/app:123 -t dhh/app:latest --label service=\"app\" --file Dockerfile --ssh $SSH_AUTH_SOCK",
+      builder.target.build_options.join(" ")
+  end
+
+  test 'extra options given to builder' do
+    builder = new_builder_command(builder: { "options" => ["--ssh $env:SSH_AUTH_SOCK", "--do-nothing"] })
+
+    assert_equal \
+      "-t dhh/app:123 -t dhh/app:latest --label service=\"app\" --file Dockerfile --ssh $env:SSH_AUTH_SOCK --do-nothing",
+      builder.target.build_options.join(" ")
+  end
+
   private
     def new_builder_command(additional_config = {})
       Kamal::Commands::Builder.new(Kamal::Configuration.new(@config.merge(additional_config), version: "123"))
