@@ -1,6 +1,8 @@
 # Kamal: Deploy web apps anywhere
 
-Forked to add builder.options which allows "--ssh $SSH_AUTH_SOCK" to be given to the builder. This is required when pulling code from repos that need ssh keys. The options could be anything, I've made it agnotic.
+~~Forked to add builder.options which allows "--ssh $SSH_AUTH_SOCK" to be given to the builder. This is required when pulling code from repos that need ssh keys. The options could be anything, I've made it agnotic.~~
+
+The repo this was forked from now supports this feature. This repo will disappear eventually.
 
 From bare metal to cloud VMs, deploy web apps anywhere with zero downtime. Kamal has the dynamic reverse-proxy Traefik hold requests while a new app container is started and the old one is stopped. Works seamlessly across multiple hosts, using SSHKit to execute commands. Originally built for Rails apps, Kamal will work with any type of web app that can be containerized with Docker.
 
